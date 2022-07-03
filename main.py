@@ -1,10 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
-
 '''________________________________________________________'''
 from datetime import date
-
+import os
 '''________________________________________________________'''
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -12,16 +11,15 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from flask_gravatar import Gravatar
 from sqlite3 import IntegrityError
-
 '''________________________________________________________'''
 from functools import wraps
 from flask import abort
 from sqlalchemy import Table, Column, Integer, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
-
 '''________________________________________________________'''
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URL'] = os.environ.get("DATABASE_URL")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
